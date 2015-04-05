@@ -79,7 +79,7 @@ namespace OpenStack.Storage
 
             if (resp.StatusCode != HttpStatusCode.Created)
             {
-                throw new InvalidOperationException(string.Format("Failed to create storage object '{0}'. The remote server returned the following status code: '{1}'.", obj.Name, resp.StatusCode));
+                throw new InvalidOperationException(string.Format("Failed to copy storage object '{0}'. The remote server returned the following status code: '{1}'.", obj.Name, resp.StatusCode));
             }
 
             var converter = this.ServiceLocator.Locate<IStorageObjectPayloadConverter>();
