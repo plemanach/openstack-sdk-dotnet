@@ -26,7 +26,7 @@ namespace OpenStack.Test.Storage
     {
         public Func<StorageObject, Stream, Task<StorageObject>> CreateStorageObjectDelegate { get; set; }
 
-        public Func<StorageObject, string, Task<StorageObject>> CopyStorageObjectDelegate { get; set; }
+        public Func<StorageObject, string, string, Task<StorageObject>> CopyStorageObjectDelegate { get; set; }
 
         public Func<StorageManifest,Task<StorageManifest>> CreateStorageManifestDelegate { get; set; }
 
@@ -61,9 +61,9 @@ namespace OpenStack.Test.Storage
             return await this.CreateStorageObjectDelegate(obj, content);
         }
 
-        public async Task<StorageObject> CopyStorageObject(StorageObject obj, string destinationContainerName)
+        public async Task<StorageObject> CopyStorageObject(StorageObject obj, string destinationContainerName, string destinationObjectName = null)
         {
-            return await this.CopyStorageObjectDelegate(obj, destinationContainerName);
+            return await this.CopyStorageObjectDelegate(obj, destinationContainerName, destinationObjectName);
         }
 
         public async Task<StorageManifest> CreateStorageManifest(StorageManifest manifest)

@@ -44,7 +44,7 @@ namespace OpenStack.Test.Storage
 
         public Func<string, string, IDictionary<string, string>, Stream, Task<StorageObject>> CreateStorageObjectDelegate { get; set; }
 
-        public Func<string, string, string, Task<StorageObject>> CopyStorageObjectDelegate { get; set; }
+        public Func<string, string, string, string, Task<StorageObject>> CopyStorageObjectDelegate { get; set; }
 
         public Func<string, string, IDictionary<string, string>, Stream, int, Task<StorageObject>> CreateLargeStorageObjectDelegate { get; set; }
 
@@ -115,9 +115,9 @@ namespace OpenStack.Test.Storage
             return await CreateStorageObjectDelegate(containerName, objectName, metadata, content);
         }
 
-        public async Task<StorageObject> CopyStorageObject(string containerName, string objectName, string destinationContainerName)
+        public async Task<StorageObject> CopyStorageObject(string containerName, string objectName, string destinationContainerName, string destinationObjectName = null)
         {
-            return await CopyStorageObjectDelegate(containerName, objectName, destinationContainerName);
+            return await CopyStorageObjectDelegate(containerName, objectName, destinationContainerName, destinationObjectName);
         }
 
         public async Task<StorageObject> CreateLargeStorageObject(string containerName, string objectName, IDictionary<string, string> metadata, Stream content,

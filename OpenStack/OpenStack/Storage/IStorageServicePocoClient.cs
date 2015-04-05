@@ -37,8 +37,9 @@ namespace OpenStack.Storage
         /// </summary>
         /// <param name="obj">The storage object to copy.</param>
         /// <param name="destinationContainerName">The container destination name.</param>
+        /// <param name="destinationObjectName">The destination object name.</param>
         /// <returns>A storage object.</returns>
-        Task<StorageObject> CopyStorageObject(StorageObject obj, string destinationContainerName);
+        Task<StorageObject> CopyStorageObject(StorageObject obj, string destinationContainerName, string destinationObjectName = null);
 
         /// <summary>
         /// Creates a storage manifest on the remote OpenStack instance.

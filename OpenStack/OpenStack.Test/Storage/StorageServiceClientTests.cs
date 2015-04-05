@@ -421,7 +421,7 @@ namespace OpenStack.Test.Storage
             var obj = new StorageObject(objectName, targetContainerName, DateTime.UtcNow, "12345", 12345,
                 "application/octet-stream", new Dictionary<string, string>());
 
-            this.ServicePocoClient.CopyStorageObjectDelegate = async (s, container) =>
+            this.ServicePocoClient.CopyStorageObjectDelegate = async (s, container, destinationObjectName) =>
             {
                 Assert.AreEqual(container, obj.ContainerName);
                 Assert.AreEqual(s.Name, obj.Name);
@@ -431,6 +431,31 @@ namespace OpenStack.Test.Storage
 
             var client = new StorageServiceClient(GetValidCreds(), "Swift", CancellationToken.None, this.ServiceLocator);
             var resp = await client.CopyStorageObject(containerName, objectName, targetContainerName);
+
+            Assert.AreEqual(obj, resp);
+        }
+
+        [TestMethod]
+        public async Task CanCopyStorageObjectsAndChangeName()
+        {
+            var containerName = "TestContainer";
+            var objectName = "TestObject";
+            var targetObjectName = "TargetTestObject";
+            var targetContainerName = "TargetTestContainer";
+
+            var obj = new StorageObject(targetObjectName, targetContainerName, DateTime.UtcNow, "12345", 12345,
+                "application/octet-stream", new Dictionary<string, string>());
+
+            this.ServicePocoClient.CopyStorageObjectDelegate = async (s, container, destinationObjectName) =>
+            {
+                Assert.AreEqual(container, obj.ContainerName);
+                Assert.AreEqual(destinationObjectName, obj.Name);
+
+                return await Task.Run(() => obj);
+            };
+
+            var client = new StorageServiceClient(GetValidCreds(), "Swift", CancellationToken.None, this.ServiceLocator);
+            var resp = await client.CopyStorageObject(containerName, objectName, targetContainerName, targetObjectName);
 
             Assert.AreEqual(obj, resp);
         }
