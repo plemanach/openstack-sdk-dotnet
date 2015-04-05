@@ -89,9 +89,9 @@ namespace OpenStack.Storage
         /// <inheritdoc/>
         public async Task<StorageObject> CopyStorageObject(string containerName, string objectName, string destinationContainerName)
         {
-            containerName.AssertIsNotNullOrEmpty("containerName", "Cannot create a storage object with a container name that is null or empty.");
-            objectName.AssertIsNotNullOrEmpty("objectName", "Cannot create a storage object with a name that is null or empty.");
-            destinationContainerName.AssertIsNotNull("destinationContainerName", "Cannot copy a storage object with null destination container");
+            containerName.AssertIsNotNullOrEmpty("containerName", "Cannot copy a storage object with a container name that is null or empty.");
+            objectName.AssertIsNotNullOrEmpty("objectName", "Cannot copy a storage object with a name that is null or empty.");
+            destinationContainerName.AssertIsNotNullOrEmpty("destinationContainerName", "Cannot copy a storage object with null or empty destination container.");
  
             var requestObject = new StorageObject(objectName, containerName);
             var client = this.GetPocoClient();
